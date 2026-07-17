@@ -14,7 +14,7 @@ paste it into Gmail's signature editor:
 
 The email signature uses the stable public asset URL:
 
-`https://raw.githubusercontent.com/stateloop/brand-assets/main/logos/STATELOOP_email_light.png`
+`https://stateloop.github.io/brand-assets/logos/STATELOOP_email_light.png`
 
 `STATELOOP_email_light.png` is a cropped and optimized 360-by-44-pixel version
 of `STATELOOP_clean_light.png`. It is prepared at twice the signature's
