@@ -2,11 +2,15 @@
 
 Publicly hosted StateLoop brand assets and email signatures.
 
-## Email signature
+## Email signatures
 
-Open [`signatures/andrea-villa.html`](signatures/andrea-villa.html) in a browser,
-select the rendered signature, copy it, and paste it into Gmail's signature
-editor.
+Open a signature in a browser, select the rendered signature, copy it, and
+paste it into Gmail's signature editor:
+
+- [`signatures/jorrit-boumann.html`](signatures/jorrit-boumann.html)
+- [`signatures/andrea-villa.html`](signatures/andrea-villa.html)
+- [`signatures/putra-manggala.html`](signatures/putra-manggala.html)
+- [`signatures/taewoon-kim.html`](signatures/taewoon-kim.html)
 
 The email signature uses the stable public asset URL:
 
