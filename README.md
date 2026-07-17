@@ -2,15 +2,47 @@
 
 Publicly hosted StateLoop brand assets and email signatures.
 
-## Email signatures
+## Install your Gmail signature
 
-Open a signature in a browser, select the rendered signature, copy it, and
-paste it into Gmail's signature editor:
+Use the rendered signature for your name:
 
-- [`signatures/jorrit-boumann.html`](signatures/jorrit-boumann.html)
-- [`signatures/andrea-villa.html`](signatures/andrea-villa.html)
-- [`signatures/putra-manggala.html`](signatures/putra-manggala.html)
-- [`signatures/taewoon-kim.html`](signatures/taewoon-kim.html)
+- [Jorrit Boumann](https://stateloop.github.io/brand-assets/signatures/jorrit-boumann.html)
+- [Andrea Villa](https://stateloop.github.io/brand-assets/signatures/andrea-villa.html)
+- [Putra Manggala](https://stateloop.github.io/brand-assets/signatures/putra-manggala.html)
+- [Taewoon Kim](https://stateloop.github.io/brand-assets/signatures/taewoon-kim.html)
+
+Then:
+
+1. Select the entire rendered signature and copy it.
+2. Open Gmail's **Settings → See all settings → General → Signature**.
+3. Create or select your signature and paste the copied content.
+4. Click the pasted logo and remove only the image.
+5. Put the cursor back in the empty logo area on the left of the divider.
+6. Click Gmail's **Insert image** button and upload
+   [`logos/STATELOOP_email_gmail.png`](logos/STATELOOP_email_gmail.png).
+7. Select this signature under **Signature defaults** for new emails and,
+   if wanted, replies and forwards.
+8. Scroll to the bottom of Gmail settings and click **Save Changes**.
+9. Send a test email to a different address.
+
+Do not leave the logo copied directly from the rendered web page. In that
+case Gmail sends the external website URL, which can fail when Gmail's image
+proxy loads it. Uploading the image through Gmail changes it to a
+Google-hosted `googleusercontent.com/mail-sig` URL.
+
+### Recipient image privacy
+
+Some recipients or email clients block all remote images until they choose
+**Display images from this sender**. This is controlled by the recipient and
+cannot be overridden by an HTML signature. The Gmail-uploaded logo is the
+most reliable image-based option available through Gmail's web interface.
+
+If a signature must render without any recipient approval, it must be
+image-free. A true inline `cid:` image requires a different email client or
+custom MIME email generation; Gmail's web signature editor does not support
+it.
+
+## Signature assets
 
 The email signature uses the stable public asset URL:
 
@@ -20,18 +52,6 @@ The email signature uses the stable public asset URL:
 of `STATELOOP_clean_light.png`. It is prepared at twice the signature's
 180-by-22-pixel display size for sharp high-density rendering with a small
 payload.
-
-### Gmail image setup
-
-Gmail may fail to display externally hosted signature images even when the
-public URL is valid. For reliable Gmail delivery:
-
-1. Paste the rendered signature into Gmail's signature editor.
-2. Remove the externally loaded logo from the pasted signature.
-3. Put the cursor in the empty logo cell and use Gmail's **Insert image**
-   button.
-4. Upload [`logos/STATELOOP_email_gmail.png`](logos/STATELOOP_email_gmail.png)
-   through Gmail and save the signature.
 
 `STATELOOP_email_gmail.png` is an optimized 180-by-22-pixel upload asset. Using
 Gmail's image insertion flow lets Gmail host and deliver the logo instead of
