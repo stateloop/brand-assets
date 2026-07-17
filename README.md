@@ -16,9 +16,10 @@ The email signature uses the stable public asset URL:
 
 `https://raw.githubusercontent.com/stateloop/brand-assets/main/logos/STATELOOP_email_light.png`
 
-`STATELOOP_email_light.png` is a lossless trim of
-`STATELOOP_clean_light.png`, specifically prepared for the signature's
-180-by-22-pixel display size.
+`STATELOOP_email_light.png` is a cropped and optimized 360-by-44-pixel version
+of `STATELOOP_clean_light.png`. It is prepared at twice the signature's
+180-by-22-pixel display size for sharp high-density rendering with a small
+payload.
 
 ## Team portraits
 
