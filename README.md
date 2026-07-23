@@ -1,6 +1,6 @@
-# StateLoop brand assets
+# Stateloop brand assets
 
-Publicly hosted StateLoop brand assets and email signatures.
+Publicly hosted Stateloop brand assets and email signatures.
 
 ## Install your Gmail signature
 
