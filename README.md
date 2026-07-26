@@ -57,11 +57,28 @@ payload.
 Gmail's image insertion flow lets Gmail host and deliver the logo instead of
 depending on an external image proxy.
 
+## Logos (web / marketing)
+
+Dark-surface wordmarks for brochure and marketing sites:
+
+| File | Use |
+| --- | --- |
+| [`logos/STATELOOP_wordmark_on_dark.png`](logos/STATELOOP_wordmark_on_dark.png) | Primary web wordmark on black (nav / footer) |
+| [`logos/STATELOOP_wordmark_on_dark_figma.png`](logos/STATELOOP_wordmark_on_dark_figma.png) | Export from Figma Desktop Landingpage nav (`1500:347`) |
+| [`logos/STATELOOP_logotype_on_dark.svg`](logos/STATELOOP_logotype_on_dark.svg) | Vector logotype from the same Figma frame |
+| [`logos/STATELOOP_clean_dark.png`](logos/STATELOOP_clean_dark.png) | Full clean mark on dark |
+| [`logos/STATELOOP_clean_light.png`](logos/STATELOOP_clean_light.png) | Full clean mark on light |
+| [`logos/STATELOOP_transparent.png`](logos/STATELOOP_transparent.png) | Transparent mark |
+
+Source design: [Stateloop Figma — Desktop Landingpage](https://www.figma.com/design/epwmIhKYGqIQ1m0gR4Hr04/Stateloop?node-id=1500-186).
+
 ## Team portraits
 
-The square profile pictures used in the latest company deck:
+Square profile pictures for company Home / decks (synced from Figma Home team cards):
 
 - [`people/jorrit-boumann.jpg`](people/jorrit-boumann.jpg)
 - [`people/andrea-villa.jpg`](people/andrea-villa.jpg)
 - [`people/putra-manggala.jpg`](people/putra-manggala.jpg)
 - [`people/taewoon-kim.jpg`](people/taewoon-kim.jpg)
+
+Brochure copies these into `assets/people/` at vendor time.
