@@ -110,6 +110,20 @@ The email signature uses the stable public asset URL:
 size, for sharp high-density rendering at a small payload, derived from the
 wordmark master at its exact aspect.
 
+A copy of `STATELOOP_email_light.png` also stays at the OLD path,
+`logos/STATELOOP_email_light.png`, because four installed Gmail signatures
+hardcode that URL. Gmail stores the HTML you pasted rather than following the
+repository, so moving the file alone would put a broken-image box in every mail
+those signatures send. It is the same file, deliberately at two paths -- not a
+second image under a second name, which is the thing this layout exists to
+prevent. A symlink would not work: this site uses the legacy Pages pipeline,
+where symlinks fail the BUILD outright and would take the whole site down.
+
+Delete the compatibility copy once all four signatures have been reinstalled
+from the rendered pages. Until then, an un-reinstalled signature renders the
+new 356x44 image at its hardcoded 180x22, a 1% horizontal stretch that
+disappears on reinstall.
+
 `STATELOOP_email_gmail.png` is the same image at 178x22 for upload. Using
 Gmail's image insertion flow lets Gmail host and deliver the logo instead of
 depending on an external image proxy.
