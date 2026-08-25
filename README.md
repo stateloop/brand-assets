@@ -128,6 +128,44 @@ disappears on reinstall.
 Gmail's image insertion flow lets Gmail host and deliver the logo instead of
 depending on an external image proxy.
 
+## Signature colours come from the design system
+
+The four signatures are generated, not hand-edited:
+
+    uv run --with playwright python scripts/render-signatures.py
+
+Email cannot use CSS custom properties -- Gmail, Outlook and Apple Mail all
+want literal values in inline styles -- so a signature cannot reference a token
+and has to carry the resolved number. That is exactly how a palette drifts, and
+it had: these files were built from hand-picked greys (#0a0a0a, #1a1a1a,
+#404040, #525252, #737373) sitting 5 to 35 away in RGB from anything in the
+design system. Six levels of ink, two of which differed by 16/255 and read
+identically.
+
+The script resolves the tokens from design-system/css in a real browser and
+writes the literals in. Change a token, re-run, commit. `--check` re-resolves
+and compares without writing, so a drift can fail a build instead of turning up
+in someone's outbox.
+
+Every colour is composited over WHITE, not over `--color-bg`. The site's ground
+is #f2f2f3 drafting paper and a mail client's is white; compositing a
+translucent token over the wrong ground ships text that measures fine locally
+and fails in the client.
+
+| role | token | value | on white |
+|---|---|---|---|
+| name, body | `--color-text` | `#1d1f20` | 16.55:1 |
+| title, contact | `--text-muted` | `#5c5d5e` | 6.60:1 |
+| location | `--text-subtle` | `#707272` | 4.84:1 |
+| link | `--color-link` | `#00619e` | 6.56:1 |
+| rule, separator | `--color-neutral-300` | `#d4d4d7` | decorative |
+
+Known and accepted: the logo is the `on-solid` asset, so in a dark-mode mail
+client it shows as a white plate. An opaque image cannot follow the client's
+theme the way text does, `prefers-color-scheme` is unreliable across mail
+clients, and a mid-tone wordmark would look washed on both grounds. A brand
+plate on dark reads as deliberate; a half-working swap does not.
+
 ## Team portraits
 
 The square profile pictures used in the latest company deck:
