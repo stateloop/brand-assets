@@ -57,7 +57,9 @@ read as "for the light theme"; that misread shipped an invisible logo once.
                     STATELOOP_wordmark_ink.png     dark letters -> light surfaces
                     STATELOOP_wordmark_paper.png   light letters -> dark surfaces
       on-solid/   the wordmark on a baked-in background, for surfaces you do
-                  NOT control -- app icons, avatars, third-party listings.
+                  NOT control -- third-party listings and the like. Both are
+                  1808x592 plates, so neither drops into a square app-icon or
+                  avatar slot; see rule 4.
                     STATELOOP_on_white.png
                     STATELOOP_on_navy.png
       email/      pre-sized for one destination; see the signature section.
@@ -69,11 +71,17 @@ the two O's, then P. A symbol substituting for a letter is still a wordmark.
 
 ### Dimensions
 
-There is one master and everything else is derived from it. Rules, in order:
+There is one master and everything else is derived from it, downstream repos
+included: stateloop/design-system regenerates `STATELOOP_letters_mask.png`,
+`STATELOOP_mark.png` and `STATELOOP_mark_solo.png` from
+`wordmark/STATELOOP_wordmark_ink.png` with its `scripts/derive-logo-assets.py`,
+so re-exporting the master means re-running that too. Rules, in order:
 
 1. **One aspect ratio for the whole set.** The master is
    `wordmark/STATELOOP_wordmark_ink.png`, 1426x176, aspect **8.102**. Every
-   export derives its width from its height at that ratio. This was not being
+   export of the wordmark derives its width from its height at that ratio. The
+   `on-solid/` plates are the exception: they are compositions on their own
+   1808x592 canvas, aspect 3.054. This was not being
    done: the old email assets were 360x44 and 180x22, aspect 8.182, about 1%
    wider than the master. Small, but it means they were cropped by eye rather
    than exported, and eye-cropping compounds.
@@ -85,20 +93,27 @@ There is one master and everything else is derived from it. Rules, in order:
    not baked pixels. The file this repo used to publish as
    `STATELOOP_transparent.png` was the 1426x176 wordmark floating in a 1808x592
    canvas with lopsided margins (226 left against 156 right, putting the
-   wordmark 70px right of centre). It is gone; use `wordmark/` and set your own
-   space.
+   wordmark 35px right of centre). That file is gone; use `wordmark/` and set
+   your own space. The same off-centre canvas still ships under `on-solid/`,
+   where the baked background is the point.
 4. **A square asset is composed, not squeezed.** An avatar or app icon is a
    different composition, not the 8:1 wordmark scaled down. There is no square
    asset here yet; make one deliberately when it is needed.
 5. **A theme pair differs only in ink colour.** Same canvas, same margins, same
-   geometry -- otherwise the logo jumps when the theme flips.
+   geometry -- otherwise the logo jumps when the theme flips. This one is not
+   yet a pair: `_ink` carries 231 alpha values over 17,824 anti-aliased pixels
+   while `_paper` is a hard 0/255 cut, and their alpha differs by up to 243
+   across those same 17,824 pixels. Two renderings of the same artwork, not one
+   geometry in two inks -- which is why stateloop/design-system masks `_ink`
+   rather than swapping these two.
 
 The gap worth naming: **there is no SVG master.** Every file here is a raster,
 so nothing scales past 1426px cleanly and every theme variant is a separate
 file. An SVG with the letters on `currentColor` and the mark on the brand azure
-would replace both wordmark files with one that themes itself. The two SVGs
-that used to exist were pre-rebrand and carried the retired teal `#0c7070`;
-they were deleted rather than repaired.
+would replace both wordmark files with one that themes itself. The only SVG
+in this repo's history is `logos/STATELOOP_logotype_on_dark.svg`, on the
+unmerged `feat/figma-home-assets` branch: seven white letterform paths from
+Figma, with no infinity mark, so it is no master either.
 
 ## Signature assets
 
