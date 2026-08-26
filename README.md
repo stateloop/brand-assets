@@ -207,6 +207,42 @@ theme the way text does, `prefers-color-scheme` is unreliable across mail
 clients, and a mid-tone wordmark would look washed on both grounds. A brand
 plate on dark reads as deliberate; a half-working swap does not.
 
+## Google Workspace logo
+
+`logos/workspace/` holds the org logo that appears in the Google account chip,
+Workspace service pages and the admin console. Upload it at **Admin console ->
+Account -> Company profile -> Personalization**. It can take up to four days to
+appear everywhere.
+
+Google renders it at exactly **320x132** and stretches anything that is not,
+which is awkward here: the wordmark is 8.10:1 and that box is 2.42:1. So the
+wordmark is drawn at 288x36 and CENTRED, never scaled to fill. Max file size is
+30 KB; both files are well under.
+
+This is the one place the "never bake padding into a raster" rule above does
+NOT apply, and the exception is principled: that rule holds where CSS controls
+layout. Google gives none -- it renders a fixed frame and stretches whatever
+arrives -- so the padding has to live in the file.
+
+The margins are deliberately uneven: 16px at the sides against 48px top and
+bottom. That is forced by the aspect mismatch, and only the width is a real
+choice. It was 84% of the frame first, which left the art filling 21% and
+rendered small once Google scaled the box into the account chip; 90% fills 25%
+with 0.44x the art height as side clear space.
+
+| file | when |
+|---|---|
+| STATELOOP_on_white.png | default -- the account chip renders on a white card |
+| STATELOOP_transparent_ink.png | if the surface is known to be light |
+
+The plate is the safer default for the same reason it is in email: this is a
+surface we do not control and cannot theme, an image does not follow the host's
+dark mode, and ink letters on transparent would disappear on a dark ground
+while a plate merely looks deliberate.
+
+Regenerate from the master with the snippet in this section's history, or by
+hand: resize wordmark_ink to 84% of the width, centre it, keep the aspect.
+
 ## Team portraits
 
 The square profile pictures used in the latest company deck:
