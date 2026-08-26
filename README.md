@@ -4,6 +4,15 @@ Publicly hosted Stateloop brand assets and email signatures.
 
 ## Install your Gmail signature
 
+Open your page and press **Copy signature**, then paste into Gmail →
+Settings → Signature with a normal paste (Ctrl+V / Cmd+V).
+
+Do NOT copy the page by hand and paste without formatting. A plain-text copy
+serialises the logo to its `alt` text, so you end up with the word "Stateloop"
+where the wordmark should be — which is exactly what happened before the button
+existed. The button writes `text/html` to the clipboard, so there is nothing to
+get wrong; the toolbar itself is outside the copied region.
+
 Use the rendered signature for your name:
 
 - [Jorrit Boumann](https://stateloop.github.io/brand-assets/signatures/jorrit-boumann.html)
