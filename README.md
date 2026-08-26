@@ -19,7 +19,7 @@ Then:
 4. Click the pasted logo and remove only the image.
 5. Put the cursor back in the empty logo area on the left of the divider.
 6. Click Gmail's **Insert image** button and upload
-   [`logos/email/STATELOOP_email_gmail.png`](logos/email/STATELOOP_email_gmail.png).
+   [`logos/email/STATELOOP_on_white@1x.png`](logos/email/STATELOOP_on_white@1x.png).
 7. Select this signature under **Signature defaults** for new emails and,
    if wanted, replies and forwards.
 8. Scroll to the bottom of Gmail settings and click **Save Changes**.
@@ -63,8 +63,8 @@ read as "for the light theme"; that misread shipped an invisible logo once.
                     STATELOOP_on_white.png
                     STATELOOP_on_navy.png
       email/      pre-sized for one destination; see the signature section.
-                    STATELOOP_email_light.png
-                    STATELOOP_email_gmail.png
+                    STATELOOP_on_white@2x.png   hotlinked by the signatures
+                    STATELOOP_on_white@1x.png   for Gmail's own uploader
 
 The wordmark is the name set as type: STATEL, the infinity mark standing in for
 the two O's, then P. A symbol substituting for a letter is still a wordmark.
@@ -119,13 +119,13 @@ Figma, with no infinity mark, so it is no master either.
 
 The email signature uses the stable public asset URL:
 
-`https://stateloop.github.io/brand-assets/logos/email/STATELOOP_email_light.png`
+`https://stateloop.github.io/brand-assets/logos/email/STATELOOP_on_white@2x.png`
 
-`STATELOOP_email_light.png` is 356x44: twice the signature's 178x22 display
+`STATELOOP_on_white@2x.png` is 356x44: twice the signature's 178x22 display
 size, for sharp high-density rendering at a small payload, derived from the
 wordmark master at its exact aspect.
 
-A copy of `STATELOOP_email_light.png` also stays at the OLD path,
+A copy also stays at the OLD path and under the OLD name,
 `logos/STATELOOP_email_light.png`, because four installed Gmail signatures
 hardcode that URL. Gmail stores the HTML you pasted rather than following the
 repository, so moving the file alone would put a broken-image box in every mail
@@ -134,14 +134,69 @@ second image under a second name, which is the thing this layout exists to
 prevent. A symlink would not work: this site uses the legacy Pages pipeline,
 where symlinks fail the BUILD outright and would take the whole site down.
 
+The email files are named for what the PIXELS are, like logos/on-solid/ --
+the folder already says they are for email. They were STATELOOP_email_light
+and _gmail, and "light" read as "for the light theme" when the white ground
+is baked in. It is used in DARK clients too: an <img> does not follow the
+client's theme the way text does, so the plate is what keeps the wordmark
+legible there.
+
 Delete the compatibility copy once all four signatures have been reinstalled
 from the rendered pages. Until then, an un-reinstalled signature renders the
 new 356x44 image at its hardcoded 180x22, a 1% horizontal stretch that
 disappears on reinstall.
 
-`STATELOOP_email_gmail.png` is the same image at 178x22 for upload. Using
+`STATELOOP_on_white@1x.png` is the same image at 178x22 for upload. Using
 Gmail's image insertion flow lets Gmail host and deliver the logo instead of
 depending on an external image proxy.
+
+## Signature colours come from the design system
+
+The four signatures are generated, not hand-edited:
+
+    uv run --with playwright python scripts/render-signatures.py
+
+Email cannot use CSS custom properties -- Gmail, Outlook and Apple Mail all
+want literal values in inline styles -- so a signature cannot reference a token
+and has to carry the resolved number. That is exactly how a palette drifts, and
+it had: these files were built from hand-picked greys (#0a0a0a, #1a1a1a,
+#404040, #525252, #737373) sitting 5 to 35 away in RGB from anything in the
+design system. Six levels of ink, two of which differed by 16/255 and read
+identically.
+
+The script resolves the tokens from design-system/css in a real browser and
+writes the literals in, plus `signatures/tokens.lock.json` recording what it
+resolved and from which version. Change a token, re-run, commit.
+
+`--check` compares the signatures against that lockfile -- it does NOT resolve
+the tokens, and needs no browser. That split is deliberate: this repository is
+public and design-system is private, so CI here cannot read the palette without
+being handed credentials for a private repo. The free half is still the useful
+one, and it runs on every push: nobody can hand-edit a signature back to an
+invented colour.
+
+The gap that leaves, stated rather than papered over: nothing notices a palette
+change until someone re-runs the generator. The lockfile names the version it
+was resolved from, so at least the staleness shows up in a diff.
+
+Every colour is composited over WHITE, not over `--color-bg`. The site's ground
+is #f2f2f3 drafting paper and a mail client's is white; compositing a
+translucent token over the wrong ground ships text that measures fine locally
+and fails in the client.
+
+| role | token | value | on white |
+|---|---|---|---|
+| name, body | `--color-text` | `#1d1f20` | 16.55:1 |
+| title, contact | `--text-muted` | `#5c5d5e` | 6.60:1 |
+| location | `--text-subtle` | `#707272` | 4.84:1 |
+| link | `--color-link` | `#00619e` | 6.56:1 |
+| rule, separator | `--color-neutral-300` | `#d4d4d7` | decorative |
+
+Known and accepted: the logo is the `on-solid` asset, so in a dark-mode mail
+client it shows as a white plate. An opaque image cannot follow the client's
+theme the way text does, `prefers-color-scheme` is unreliable across mail
+clients, and a mid-tone wordmark would look washed on both grounds. A brand
+plate on dark reads as deliberate; a half-working swap does not.
 
 ## Team portraits
 
