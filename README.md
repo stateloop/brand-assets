@@ -216,8 +216,19 @@ appear everywhere.
 
 Google renders it at exactly **320x132** and stretches anything that is not,
 which is awkward here: the wordmark is 8.10:1 and that box is 2.42:1. So the
-wordmark is drawn at 268x33 and CENTRED, never scaled to fill. Max file size is
+wordmark is drawn at 288x36 and CENTRED, never scaled to fill. Max file size is
 30 KB; both files are well under.
+
+This is the one place the "never bake padding into a raster" rule above does
+NOT apply, and the exception is principled: that rule holds where CSS controls
+layout. Google gives none -- it renders a fixed frame and stretches whatever
+arrives -- so the padding has to live in the file.
+
+The margins are deliberately uneven: 16px at the sides against 48px top and
+bottom. That is forced by the aspect mismatch, and only the width is a real
+choice. It was 84% of the frame first, which left the art filling 21% and
+rendered small once Google scaled the box into the account chip; 90% fills 25%
+with 0.44x the art height as side clear space.
 
 | file | when |
 |---|---|
