@@ -19,7 +19,7 @@ Then:
 4. Click the pasted logo and remove only the image.
 5. Put the cursor back in the empty logo area on the left of the divider.
 6. Click Gmail's **Insert image** button and upload
-   [`logos/email/STATELOOP_email_gmail.png`](logos/email/STATELOOP_email_gmail.png).
+   [`logos/email/STATELOOP_on_white@1x.png`](logos/email/STATELOOP_on_white@1x.png).
 7. Select this signature under **Signature defaults** for new emails and,
    if wanted, replies and forwards.
 8. Scroll to the bottom of Gmail settings and click **Save Changes**.
@@ -61,8 +61,8 @@ read as "for the light theme"; that misread shipped an invisible logo once.
                     STATELOOP_on_white.png
                     STATELOOP_on_navy.png
       email/      pre-sized for one destination; see the signature section.
-                    STATELOOP_email_light.png
-                    STATELOOP_email_gmail.png
+                    STATELOOP_on_white@2x.png   hotlinked by the signatures
+                    STATELOOP_on_white@1x.png   for Gmail's own uploader
 
 The wordmark is the name set as type: STATEL, the infinity mark standing in for
 the two O's, then P. A symbol substituting for a letter is still a wordmark.
@@ -104,13 +104,13 @@ they were deleted rather than repaired.
 
 The email signature uses the stable public asset URL:
 
-`https://stateloop.github.io/brand-assets/logos/email/STATELOOP_email_light.png`
+`https://stateloop.github.io/brand-assets/logos/email/STATELOOP_on_white@2x.png`
 
-`STATELOOP_email_light.png` is 356x44: twice the signature's 178x22 display
+`STATELOOP_on_white@2x.png` is 356x44: twice the signature's 178x22 display
 size, for sharp high-density rendering at a small payload, derived from the
 wordmark master at its exact aspect.
 
-A copy of `STATELOOP_email_light.png` also stays at the OLD path,
+A copy also stays at the OLD path and under the OLD name,
 `logos/STATELOOP_email_light.png`, because four installed Gmail signatures
 hardcode that URL. Gmail stores the HTML you pasted rather than following the
 repository, so moving the file alone would put a broken-image box in every mail
@@ -119,12 +119,19 @@ second image under a second name, which is the thing this layout exists to
 prevent. A symlink would not work: this site uses the legacy Pages pipeline,
 where symlinks fail the BUILD outright and would take the whole site down.
 
+The email files are named for what the PIXELS are, like logos/on-solid/ --
+the folder already says they are for email. They were STATELOOP_email_light
+and _gmail, and "light" read as "for the light theme" when the white ground
+is baked in. It is used in DARK clients too: an <img> does not follow the
+client's theme the way text does, so the plate is what keeps the wordmark
+legible there.
+
 Delete the compatibility copy once all four signatures have been reinstalled
 from the rendered pages. Until then, an un-reinstalled signature renders the
 new 356x44 image at its hardcoded 180x22, a 1% horizontal stretch that
 disappears on reinstall.
 
-`STATELOOP_email_gmail.png` is the same image at 178x22 for upload. Using
+`STATELOOP_on_white@1x.png` is the same image at 178x22 for upload. Using
 Gmail's image insertion flow lets Gmail host and deliver the logo instead of
 depending on an external image proxy.
 

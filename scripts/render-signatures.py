@@ -57,7 +57,12 @@ PEOPLE = [
     ("taewoon-kim", "Taewoon Kim", "Technical Staff &amp; Co-founder", "taewoon@stateloop.ai"),
 ]
 
-LOGO = "https://stateloop.github.io/brand-assets/logos/email/STATELOOP_email_light.png"
+# The folder already says "email", so the filename says what the PIXELS are,
+# matching logos/on-solid/. The old name was STATELOOP_email_light.png, which
+# read as "for the light theme" when the ground is baked in -- the same misread
+# that made STATELOOP_clean_light.png ship an invisible logo. It is used in
+# dark clients too, because an <img> does not follow the client's theme.
+LOGO = "https://stateloop.github.io/brand-assets/logos/email/STATELOOP_on_white@2x.png"
 SANS = ("-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, "
         "Arial, sans-serif")
 MONO = "&quot;SF Mono&quot;, Menlo, Monaco, Consolas, monospace"
