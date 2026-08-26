@@ -103,6 +103,49 @@ async def resolve() -> dict[str, str]:
     return out
 
 
+# The page exists to be copied INTO Gmail, and the obvious way to copy it is
+# the way that loses the logo: a plain-text copy serialises <img> to its alt
+# text, so you paste the word "Stateloop" where the wordmark should be. The
+# button writes text/html to the clipboard explicitly, so there is nothing to
+# get wrong. Everything it needs is inline -- the page must keep working with
+# no build step -- and the toolbar sits OUTSIDE the copied region, so a
+# select-all still copies only the signature.
+TOOLBAR = """  <div id="bar" style="font: 500 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; color: #5c5d5e; margin: 0 0 20px; user-select: none;">
+    <button id="copy" style="font: inherit; color: #1d1f20; background: #fff; border: 1px solid #d4d4d7; border-radius: 4px; padding: 7px 13px; cursor: pointer;">Copy signature</button>
+    <span id="msg" style="margin-left: 10px; color: #707272;">then paste into Gmail → Settings → Signature</span>
+  </div>
+"""
+
+SCRIPT = """  <script>
+    (function () {
+      var btn = document.getElementById('copy');
+      var msg = document.getElementById('msg');
+      var sig = document.getElementById('signature');
+      function say(t) { msg.textContent = t; }
+      btn.addEventListener('click', async function () {
+        var html = sig.innerHTML;
+        try {
+          // text/html is the whole point: a text/plain copy turns the logo
+          // into the word "Stateloop".
+          await navigator.clipboard.write([new ClipboardItem({
+            'text/html': new Blob([html], { type: 'text/html' }),
+            'text/plain': new Blob([sig.innerText], { type: 'text/plain' })
+          })]);
+          say('Copied. Paste into Gmail → Settings → Signature.');
+        } catch (e) {
+          // Older browsers, or a denied permission: select the signature so
+          // the user's own copy still carries the markup.
+          var r = document.createRange();
+          r.selectNodeContents(sig);
+          var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+          say('Selected — press Ctrl+C (Cmd+C), then paste with Ctrl+V.');
+        }
+      });
+    })();
+  </script>
+"""
+
+
 def render(c: dict[str, str], name: str, title: str, email: str) -> str:
     return f"""<!doctype html>
 <html lang="en">
@@ -112,6 +155,7 @@ def render(c: dict[str, str], name: str, title: str, email: str) -> str:
   <title>{name} — Stateloop email signature</title>
 </head>
 <body>
+{TOOLBAR}  <div id="signature">
   <table cellpadding="0" cellspacing="0" border="0" style="font-family: {SANS}; color: {c['ink']}; font-size: 13px; line-height: 1.5;">
     <tbody>
       <tr>
@@ -129,7 +173,8 @@ def render(c: dict[str, str], name: str, title: str, email: str) -> str:
       </tr>
     </tbody>
   </table>
-</body>
+  </div>
+{SCRIPT}</body>
 </html>
 """
 
