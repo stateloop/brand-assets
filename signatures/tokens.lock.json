@@ -1,0 +1,17 @@
+{
+  "resolvedFrom": "@stateloop/design-system 0.17.0",
+  "roles": {
+    "ink": "var(--color-text)",
+    "muted": "var(--text-muted)",
+    "subtle": "var(--text-subtle)",
+    "link": "var(--color-link)",
+    "divider": "var(--color-neutral-300)"
+  },
+  "colours": {
+    "ink": "#1d1f20",
+    "muted": "#5c5d5e",
+    "subtle": "#707272",
+    "link": "#00619e",
+    "divider": "#d4d4d7"
+  }
+}

@@ -32,7 +32,7 @@ Two things about the colour that are deliberate:
 """
 import argparse
 import asyncio
-import re
+import json
 import sys
 from pathlib import Path
 
@@ -134,13 +134,32 @@ def render(c: dict[str, str], name: str, title: str, email: str) -> str:
 """
 
 
+LOCK = ROOT / "signatures" / "tokens.lock.json"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--check", action="store_true",
-                    help="fail if the committed signatures do not match the tokens")
+                    help="fail if the committed signatures do not match tokens.lock.json")
     args = ap.parse_args()
 
-    colours = asyncio.run(resolve())
+    # --check reads the LOCKFILE, not the design system. brand-assets is public
+    # and design-system is private, so CI here cannot resolve the tokens without
+    # being handed a token for a private repo. Splitting it keeps the useful
+    # half free: CI proves nobody hand-edited a signature, and the lockfile is
+    # refreshed by whoever changes the palette, who has both repos checked out.
+    #
+    # Residual gap, stated rather than papered over: nothing here notices a
+    # palette change until someone re-runs this script. The lockfile records
+    # which design-system version it was resolved from so the staleness is at
+    # least visible in a diff.
+    if args.check:
+        if not LOCK.exists():
+            print("x signatures/tokens.lock.json missing — run without --check first")
+            return 1
+        colours = json.loads(LOCK.read_text())["colours"]
+    else:
+        colours = asyncio.run(resolve())
     stale = []
     for slug, name, title, email in PEOPLE:
         path = ROOT / "signatures" / f"{slug}.html"
@@ -153,13 +172,21 @@ def main() -> int:
 
     if args.check:
         if stale:
-            print("x signatures no longer match the design system: " + ", ".join(stale))
+            print("x signatures do not match tokens.lock.json: " + ", ".join(stale))
             print("  regenerate: uv run --with playwright python scripts/render-signatures.py")
             return 1
-        print("+ signatures match the design system.")
+        print("+ signatures match tokens.lock.json.")
         return 0
 
-    print(f"+ wrote {len(PEOPLE)} signatures from the design system:")
+    version = "unknown"
+    pkg = DS.parent / "package.json"
+    if pkg.exists():
+        version = json.loads(pkg.read_text()).get("version", "unknown")
+    LOCK.write_text(json.dumps(
+        {"resolvedFrom": f"@stateloop/design-system {version}",
+         "roles": ROLES, "colours": colours}, indent=2) + "\n")
+
+    print(f"+ wrote {len(PEOPLE)} signatures from the design system {version}:")
     for role, token in ROLES.items():
         print(f"    {role:8} {token:28} {colours[role]}")
     return 0

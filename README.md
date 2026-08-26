@@ -150,9 +150,19 @@ design system. Six levels of ink, two of which differed by 16/255 and read
 identically.
 
 The script resolves the tokens from design-system/css in a real browser and
-writes the literals in. Change a token, re-run, commit. `--check` re-resolves
-and compares without writing, so a drift can fail a build instead of turning up
-in someone's outbox.
+writes the literals in, plus `signatures/tokens.lock.json` recording what it
+resolved and from which version. Change a token, re-run, commit.
+
+`--check` compares the signatures against that lockfile -- it does NOT resolve
+the tokens, and needs no browser. That split is deliberate: this repository is
+public and design-system is private, so CI here cannot read the palette without
+being handed credentials for a private repo. The free half is still the useful
+one, and it runs on every push: nobody can hand-edit a signature back to an
+invented colour.
+
+The gap that leaves, stated rather than papered over: nothing notices a palette
+change until someone re-runs the generator. The lockfile names the version it
+was resolved from, so at least the staleness shows up in a diff.
 
 Every colour is composited over WHITE, not over `--color-bg`. The site's ground
 is #f2f2f3 drafting paper and a mail client's is white; compositing a

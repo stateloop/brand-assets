@@ -1,0 +1,25 @@
+# The signatures are generated from the design system's tokens; this proves
+# nobody hand-edited one back to an invented colour.
+#
+# It checks against signatures/tokens.lock.json rather than resolving the
+# tokens live: this repository is PUBLIC and design-system is PRIVATE, so a job
+# here cannot read the palette without being handed credentials for a private
+# repo. The lockfile is refreshed by whoever changes the palette, who has both
+# repositories checked out anyway.
+name: signatures
+on:
+  push:
+    paths: ["signatures/**", "scripts/render-signatures.py"]
+  pull_request:
+    paths: ["signatures/**", "scripts/render-signatures.py"]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Signatures match the recorded tokens
+        run: python scripts/render-signatures.py --check
