@@ -275,6 +275,23 @@ clear space has to live in the file. 97px either side, 177 top and bottom of
 512 -- uneven because the mark is 2:1 in a 1:1 frame, which is the frame's
 shape, not a mistake.
 
+## LinkedIn banner
+
+`logos/banner/STATELOOP_linkedin_1512x256.png`, at LinkedIn's own Page cover
+spec. Company page -> Edit page -> Cover image.
+
+The wordmark starts at 42% of the width, and that is the whole point of the
+layout: LinkedIn overlaps the square logo tile across the cover's lower LEFT,
+so anything placed there is covered. The tile ends around 12% of the width, so
+the wordmark clears it with room to spare.
+
+Navy ground, matching the avatar tile beside it. The pair reads as one thing:
+the tile carries the mark, the banner carries the name.
+
+What it replaces was a huge wordmark on WHITE, upscaled past its resolution --
+visibly pixelated, and a white slab against the page's own white chrome so the
+cover had no edge at all.
+
 ## Team portraits
 
 The square profile pictures used in the latest company deck:
