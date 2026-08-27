@@ -110,9 +110,15 @@ async def resolve() -> dict[str, str]:
 # get wrong. Everything it needs is inline -- the page must keep working with
 # no build step -- and the toolbar sits OUTSIDE the copied region, so a
 # select-all still copies only the signature.
-TOOLBAR = """  <div id="bar" style="font: 500 13px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; color: #5c5d5e; margin: 0 0 20px; user-select: none;">
-    <button id="copy" style="font: inherit; color: #1d1f20; background: #fff; border: 1px solid #d4d4d7; border-radius: 4px; padding: 7px 13px; cursor: pointer;">Copy signature</button>
-    <span id="msg" style="margin-left: 10px; color: #707272;">then paste into Gmail → Settings → Signature</span>
+# The toolbar takes its colours from the SAME resolved tokens as the signature.
+# Its first version hardcoded #5c5d5e, #1d1f20, #fff and #d4d4d7 -- the values
+# those tokens happen to resolve to -- so this page preached provenance in the
+# signature and abandoned it one element above. It also carried a 4px radius
+# against a system where every --radius-* is 0.
+def toolbar(c: dict[str, str]) -> str:
+    return f"""  <div id="bar" style="font: 500 13px {SANS}; color: {c['muted']}; margin: 0 0 20px; user-select: none;">
+    <button id="copy" style="font: inherit; color: {c['ink']}; background: #fff; border: 1px solid {c['divider']}; border-radius: 0; padding: 7px 13px; cursor: pointer;">Copy signature</button>
+    <span id="msg" style="margin-left: 10px; color: {c['subtle']};">then paste into Gmail → Settings → Signature</span>
   </div>
 """
 
@@ -155,7 +161,7 @@ def render(c: dict[str, str], name: str, title: str, email: str) -> str:
   <title>{name} — Stateloop email signature</title>
 </head>
 <body>
-{TOOLBAR}  <div id="signature">
+{toolbar(c)}  <div id="signature">
   <table cellpadding="0" cellspacing="0" border="0" style="font-family: {SANS}; color: {c['ink']}; font-size: 13px; line-height: 1.5;">
     <tbody>
       <tr>
