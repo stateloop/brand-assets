@@ -243,6 +243,38 @@ while a plate merely looks deliberate.
 Regenerate from the master with the snippet in this section's history, or by
 hand: resize wordmark_ink to 84% of the width, centre it, keep the aspect.
 
+## Avatar (GitHub org, LinkedIn company page)
+
+`logos/avatar/STATELOOP_avatar_512.png`. Upload the same file to both; each
+platform downscales (GitHub wants at least 200 and recommends 500, LinkedIn
+300).
+
+Three decisions, each measured rather than picked:
+
+**The MARK, not the wordmark.** Both platforms crop to a square and render it
+around 40-60px in a list or feed. An 8.10:1 wordmark in a square either shrinks
+to an illegible sliver or gets letterboxed into a thin strip. The infinity is
+what survives at that size, and it is what people recognise.
+
+**Navy, not white.** The tile is #042941, the same ground as the dark theme and
+the decks.
+
+| | mark on the tile | tile on a light UI | tile on a dark UI |
+|---|---|---|---|
+| navy | **5.45:1** | 15.01:1, a distinct tile | 1.26:1, blends in |
+| white | 2.75:1 | 1.00:1, no edge at all | 18.92:1, a glaring slab |
+
+Navy wins twice: the azure mark is legible on it, where on white it is 2.75:1
+and under the 3:1 asked of a graphic. And the tile never becomes a bright slab
+in someone's dark GitHub -- blending there reads as integrated rather than
+pasted on.
+
+**Padding is baked in, deliberately.** Same exception as the email and
+Workspace exports: the platform gives a fixed frame and no styling, so the
+clear space has to live in the file. 97px either side, 177 top and bottom of
+512 -- uneven because the mark is 2:1 in a 1:1 frame, which is the frame's
+shape, not a mistake.
+
 ## Team portraits
 
 The square profile pictures used in the latest company deck:
