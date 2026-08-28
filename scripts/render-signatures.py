@@ -31,7 +31,6 @@ Two things about the colour that are deliberate:
   They are resolved here by painting them ON white and reading the result back.
 """
 import argparse
-import asyncio
 import json
 import sys
 from pathlib import Path
@@ -68,39 +67,25 @@ SANS = ("-apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, "
 MONO = "&quot;SF Mono&quot;, Menlo, Monaco, Consolas, monospace"
 
 
-async def resolve() -> dict[str, str]:
-    """Resolve each token to a hex literal, composited over white."""
-    from playwright.async_api import async_playwright
+def resolve() -> dict[str, str]:
+    """Resolve each role to a hex literal, composited over white.
 
-    probe = "".join(
-        f'<span id="{k}" style="color:{v}">x</span>' for k, v in ROLES.items()
-    )
-    html = (f'<style>{(DS / "tokens.css").read_text()}\n'
-            f'{(DS / "semantic.css").read_text()}</style>'
-            f'<body style="background:#fff">{probe}</body>')
+    The resolver itself lives in the design system, not here. outreach-signal
+    needs the same thing -- a single-file dashboard with no build step cannot
+    reference a token either -- and briefly grew a second thirty-line copy of
+    this function before it was pulled up into design-system/scripts. One
+    checker per question, helpers included.
 
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        page = await (await browser.new_context(color_scheme="light")).new_page()
-        await page.set_content(html)
-        out = await page.evaluate("""() => {
-            const res = {};
-            for (const el of document.querySelectorAll('span')) {
-                // Paint ON white, then read back: a translucent token composited
-                // against the ground it will actually sit on. Reading the
-                // computed colour instead keeps the alpha and lies about it.
-                const cv = document.createElement('canvas');
-                cv.width = cv.height = 1;
-                const x = cv.getContext('2d');
-                x.fillStyle = '#ffffff'; x.fillRect(0, 0, 1, 1);
-                x.fillStyle = getComputedStyle(el).color; x.fillRect(0, 0, 1, 1);
-                const [r, g, b] = x.getImageData(0, 0, 1, 1).data;
-                res[el.id] = '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
-            }
-            return res;
-        }""")
-        await browser.close()
-    return out
+    Over WHITE specifically: an email client's ground is white, the site's is
+    --color-bg, and compositing a translucent token against the wrong one ships
+    text that measures fine locally and fails in the client.
+    """
+    sys.path.insert(0, str(DS.parent / "scripts"))
+    from resolve_tokens import resolve as _resolve
+    names = [v[4:-1] for v in ROLES.values()]   # "var(--x)" -> "--x"
+    got = _resolve(names, css_dir=DS, over="#ffffff", theme="light")
+    # ROLES maps role -> "var(--token)"; the resolver is keyed by the token.
+    return {role: got[var[4:-1]] for role, var in ROLES.items()}
 
 
 # The page exists to be copied INTO Gmail, and the obvious way to copy it is
@@ -210,7 +195,7 @@ def main() -> int:
             return 1
         colours = json.loads(LOCK.read_text())["colours"]
     else:
-        colours = asyncio.run(resolve())
+        colours = resolve()
     stale = []
     for slug, name, title, email in PEOPLE:
         path = ROOT / "signatures" / f"{slug}.html"

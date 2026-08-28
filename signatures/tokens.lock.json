@@ -1,5 +1,5 @@
 {
-  "resolvedFrom": "@stateloop/design-system 0.17.0",
+  "resolvedFrom": "@stateloop/design-system 0.23.0",
   "roles": {
     "ink": "var(--color-text)",
     "muted": "var(--text-muted)",
