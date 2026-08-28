@@ -9,9 +9,9 @@
 name: signatures
 on:
   push:
-    paths: ["signatures/**", "scripts/render-signatures.py"]
+    paths: ["signatures/**", "logos/**", "scripts/*.py"]
   pull_request:
-    paths: ["signatures/**", "scripts/render-signatures.py"]
+    paths: ["signatures/**", "logos/**", "scripts/*.py"]
 
 jobs:
   check:
@@ -23,3 +23,9 @@ jobs:
           python-version: "3.11"
       - name: Signatures match the recorded tokens
         run: python scripts/render-signatures.py --check
+      # The logos are the MASTERS -- there is no vector source for the wordmark
+      # (coord-jtre), so a master that drifts has nothing to be regenerated from.
+      # The brand carried four different azures before this; #07afff and #07a6fc
+      # were the @1x and @2x halves of the same email signature.
+      - name: Logos carry the token azure
+        run: pip install --quiet pillow && python scripts/check-azure.py
