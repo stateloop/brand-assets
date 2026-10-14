@@ -163,7 +163,7 @@ depending on an external image proxy.
 
 The four signatures are generated, not hand-edited:
 
-    uv run --with playwright python scripts/render-signatures.py
+    uv run --locked python scripts/render-signatures.py
 
 Email cannot use CSS custom properties -- Gmail, Outlook and Apple Mail all
 want literal values in inline styles -- so a signature cannot reference a token

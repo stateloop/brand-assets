@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the email signatures from the design system's colours.
 
-    uv run --with playwright python scripts/render-signatures.py [--check]
+    uv run --locked python scripts/render-signatures.py [--check]
 
 Email cannot use CSS custom properties: Gmail, Outlook and Apple Mail all want
 literal values in inline styles. So a signature cannot REFERENCE a token -- it
@@ -209,7 +209,7 @@ def main() -> int:
     if args.check:
         if stale:
             print("x signatures do not match tokens.lock.json: " + ", ".join(stale))
-            print("  regenerate: uv run --with playwright python scripts/render-signatures.py")
+            print("  regenerate: uv run --locked python scripts/render-signatures.py")
             return 1
         print("+ signatures match tokens.lock.json.")
         return 0
