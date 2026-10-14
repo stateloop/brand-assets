@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Fail if a logo's azure has drifted from the design system's accent token.
 
-    uv run --with pillow python scripts/check-azure.py
+    uv run --locked python scripts/check-azure.py
 
 The brand had FOUR azures, not two. Eight files carried #07a6fc, but
 email/STATELOOP_on_white@1x.png was #07afff, workspace/STATELOOP_on_white.png
